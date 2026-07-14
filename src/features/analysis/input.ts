@@ -1,10 +1,37 @@
-export const MAX_ANALYSIS_FILE_SIZE_BYTES = 20 * 1024 * 1024;
+import { MAX_UPLOAD_SIZE_BYTES, MAX_UPLOAD_SIZE_LABEL } from "@/config/uploads";
+
+export const MAX_ANALYSIS_FILE_SIZE_BYTES = MAX_UPLOAD_SIZE_BYTES;
 
 const supportedMimeTypes = new Set([
   "application/pdf",
   "image/jpeg",
   "image/png",
 ]);
+
+const supportedExtensionsByMimeType = {
+  "application/pdf": new Set(["pdf"]),
+  "image/jpeg": new Set(["jpg", "jpeg"]),
+  "image/png": new Set(["png"]),
+} as const;
+
+function hasExpectedFileSignature(
+  bytes: Uint8Array,
+  mimeType: keyof typeof supportedExtensionsByMimeType,
+): boolean {
+  if (mimeType === "application/pdf") {
+    return [0x25, 0x50, 0x44, 0x46].every(
+      (value, index) => bytes[index] === value,
+    );
+  }
+
+  if (mimeType === "image/png") {
+    return [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a].every(
+      (value, index) => bytes[index] === value,
+    );
+  }
+
+  return [0xff, 0xd8, 0xff].every((value, index) => bytes[index] === value);
+}
 
 export type AnalysisInput =
   | Readonly<{ kind: "text"; text: string }>
@@ -68,22 +95,37 @@ export async function parseAnalysisFormData(
   if (file.size > MAX_ANALYSIS_FILE_SIZE_BYTES) {
     throw new AnalysisInputError(
       "file_too_large",
-      "Choose a file no larger than 20 MB.",
+      `Choose a file no larger than ${MAX_UPLOAD_SIZE_LABEL}.`,
     );
   }
 
-  if (!supportedMimeTypes.has(file.type)) {
+  const mimeType = file.type as keyof typeof supportedExtensionsByMimeType;
+  const extension = file.name.split(".").pop()?.toLowerCase();
+  const hasSupportedExtension =
+    extension !== undefined &&
+    supportedExtensionsByMimeType[mimeType]?.has(extension);
+
+  if (!supportedMimeTypes.has(file.type) || !hasSupportedExtension) {
     throw new AnalysisInputError(
       "unsupported_file",
       "Choose a PDF, PNG, JPG or JPEG file.",
     );
   }
 
+  const bytes = new Uint8Array(await file.arrayBuffer());
+
+  if (!hasExpectedFileSignature(bytes, mimeType)) {
+    throw new AnalysisInputError(
+      "unsupported_file",
+      "The file contents do not match a supported PDF, PNG, JPG or JPEG document.",
+    );
+  }
+
   return {
     kind: "file",
     filename: file.name,
-    mimeType: file.type as "application/pdf" | "image/jpeg" | "image/png",
-    bytes: new Uint8Array(await file.arrayBuffer()),
+    mimeType,
+    bytes,
   };
 }
 

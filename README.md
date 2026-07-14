@@ -47,3 +47,26 @@ than as empty placeholders.
 Environment variables are read through `src/config/env.ts`. Private variables
 must only be imported by server-side modules. The committed `.env.example`
 documents required keys without containing secrets.
+
+- `OPENAI_API_KEY` is required and must remain server-only.
+- `OPENAI_MODEL` is optional and defaults to the approved `gpt-5.6` alias.
+
+## Vercel deployment readiness
+
+The Next.js application and Node.js API routes are Vercel-compatible. Uploads
+are limited to 4 MB, intentionally below Vercel Functions' 4.5 MB request-body
+limit to leave room for multipart overhead. Files remain request-scoped and are
+sent directly to the analysis route without a storage service.
+
+Prepare and deploy with:
+
+```powershell
+npm.cmd install
+npx.cmd vercel link
+npx.cmd vercel env add OPENAI_API_KEY production
+npx.cmd vercel env add OPENAI_MODEL production
+npx.cmd vercel build
+npx.cmd vercel deploy --prod
+```
+
+Do not place either environment variable in a `NEXT_PUBLIC_` variable.

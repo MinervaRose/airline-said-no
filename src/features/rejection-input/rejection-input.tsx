@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { classNames } from "@/components/ui/class-names";
+import { MAX_UPLOAD_SIZE_LABEL } from "@/config/uploads";
 
 import styles from "./rejection-input.module.css";
 import {
@@ -243,7 +244,7 @@ export function RejectionInput({
                   or <span className={styles.dropAction}>choose a file</span>
                 </span>
                 <span className={styles.supportCopy}>
-                  PDF, PNG, JPG or JPEG · 20 MB maximum
+                  PDF, PNG, JPG or JPEG · {MAX_UPLOAD_SIZE_LABEL} maximum
                 </span>
               </span>
             </label>

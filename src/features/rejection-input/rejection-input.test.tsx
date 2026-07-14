@@ -5,6 +5,14 @@ import { describe, expect, it, vi } from "vitest";
 import { RejectionInput } from "./rejection-input";
 
 describe("RejectionInput", () => {
+  it("shows the approved 4 MB upload limit", () => {
+    render(<RejectionInput />);
+
+    expect(
+      screen.getByText("PDF, PNG, JPG or JPEG · 4 MB maximum"),
+    ).toBeInTheDocument();
+  });
+
   it("selects and removes one supported document", async () => {
     const user = userEvent.setup();
     render(<RejectionInput />);
@@ -174,6 +182,38 @@ describe("RejectionInput", () => {
     expect(onSubmit).toHaveBeenCalledWith({
       kind: "text",
       text: "Rejected claim.",
+    });
+  });
+
+  it("supports the pasted-text submission journey using only the keyboard", async () => {
+    const user = userEvent.setup();
+    const onSubmit = vi.fn();
+    render(<RejectionInput onSubmit={onSubmit} />);
+
+    await user.tab();
+    expect(
+      screen.getByRole("button", { name: "Upload one rejection document" }),
+    ).toHaveFocus();
+    await user.tab();
+    await user.keyboard("{Enter}");
+    await user.tab();
+    const textArea = screen.getByRole("textbox", {
+      name: /paste the airline’s rejection/i,
+    });
+    expect(textArea).toHaveFocus();
+    await user.type(textArea, "Synthetic rejection text.");
+    await user.tab();
+    await user.tab();
+    expect(
+      screen.getByRole("button", {
+        name: /check if “no” really means “no”/i,
+      }),
+    ).toHaveFocus();
+    await user.keyboard("{Enter}");
+
+    expect(onSubmit).toHaveBeenCalledWith({
+      kind: "text",
+      text: "Synthetic rejection text.",
     });
   });
 });

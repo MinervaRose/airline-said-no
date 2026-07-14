@@ -4,6 +4,7 @@
   margin: 0 auto;
   gap: var(--space-6);
   padding: var(--space-8) 0 var(--space-12);
+  overflow-wrap: anywhere;
 }
 .hero {
   display: flex;

@@ -31,14 +31,14 @@ describe("rejection input validation", () => {
     });
   });
 
-  it("rejects files larger than 20 MB", () => {
+  it("rejects files larger than 4 MB", () => {
     const file = new File(["rejection"], "rejection.pdf", {
       type: "application/pdf",
     });
     Object.defineProperty(file, "size", { value: MAX_FILE_SIZE_BYTES + 1 });
 
     expect(validateFiles([file])?.detail).toBe(
-      "Choose a file no larger than 20 MB.",
+      "Choose a file no larger than 4 MB.",
     );
   });
 

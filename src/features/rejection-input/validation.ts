@@ -1,4 +1,6 @@
-export const MAX_FILE_SIZE_BYTES = 20 * 1024 * 1024;
+import { MAX_UPLOAD_SIZE_BYTES, MAX_UPLOAD_SIZE_LABEL } from "@/config/uploads";
+
+export const MAX_FILE_SIZE_BYTES = MAX_UPLOAD_SIZE_BYTES;
 
 const acceptedExtensions = new Set(["pdf", "png", "jpg", "jpeg"]);
 const acceptedMimeTypes = new Set([
@@ -48,7 +50,7 @@ export function validateFiles(files: readonly File[]): InputError | null {
   if (file.size > MAX_FILE_SIZE_BYTES) {
     return {
       message: uploadErrorMessage,
-      detail: "Choose a file no larger than 20 MB.",
+      detail: `Choose a file no larger than ${MAX_UPLOAD_SIZE_LABEL}.`,
     };
   }
 

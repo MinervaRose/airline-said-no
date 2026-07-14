@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  AnalysisInputError,
   MAX_ANALYSIS_FILE_SIZE_BYTES,
   parseAnalysisFormData,
   toOpenAIContent,
@@ -54,9 +53,42 @@ describe("parseAnalysisFormData", () => {
     );
     formData.set("file", oversized);
 
-    await expect(parseAnalysisFormData(formData)).rejects.toBeInstanceOf(
-      AnalysisInputError,
+    await expect(parseAnalysisFormData(formData)).rejects.toMatchObject({
+      code: "file_too_large",
+      message: "Choose a file no larger than 4 MB.",
+    });
+  });
+
+  it.each([
+    ["rejection.pdf", "application/pdf", [0x25, 0x50, 0x44, 0x46]],
+    [
+      "rejection.png",
+      "image/png",
+      [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a],
+    ],
+    ["rejection.jpg", "image/jpeg", [0xff, 0xd8, 0xff]],
+    ["rejection.jpeg", "image/jpeg", [0xff, 0xd8, 0xff]],
+  ])("accepts verified %s file content", async (name, type, signature) => {
+    const formData = new FormData();
+    formData.set("file", new File([new Uint8Array(signature)], name, { type }));
+
+    await expect(parseAnalysisFormData(formData)).resolves.toMatchObject({
+      kind: "file",
+      filename: name,
+      mimeType: type,
+    });
+  });
+
+  it("rejects a file whose contents do not match its declared type", async () => {
+    const formData = new FormData();
+    formData.set(
+      "file",
+      new File(["not a PDF"], "rejection.pdf", { type: "application/pdf" }),
     );
+
+    await expect(parseAnalysisFormData(formData)).rejects.toMatchObject({
+      code: "unsupported_file",
+    });
   });
 });
 

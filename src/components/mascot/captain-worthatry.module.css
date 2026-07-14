@@ -22,9 +22,18 @@
   position: absolute;
   inset: 0;
   transform-origin: 48% 54%;
+  transition: transform 700ms var(--ease-emphasized);
 }
 
-.animated .canvas {
+.banked .canvas {
+  transform: rotate(-7deg);
+}
+
+.level .canvas {
+  transform: rotate(0);
+}
+
+.animated:not(.banked, .level) .canvas {
   animation: captain-float 3.2s var(--ease-standard) infinite;
 }
 
@@ -100,5 +109,9 @@
   .animated .canvas,
   .animated .rotor {
     animation: none;
+  }
+
+  .canvas {
+    transition: none;
   }
 }

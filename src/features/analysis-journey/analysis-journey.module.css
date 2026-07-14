@@ -1,0 +1,9 @@
+.requestError {
+  display: grid;
+  gap: var(--space-1);
+  margin-bottom: var(--space-4);
+  border-left: var(--space-1) solid var(--color-status-danger);
+  background: var(--color-status-danger-surface);
+  color: var(--color-status-danger);
+  font-size: var(--font-size-sm);
+}

@@ -4,6 +4,7 @@ import type { ChangeEvent, DragEvent, FocusEvent } from "react";
 import { useRef, useState } from "react";
 
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { classNames } from "@/components/ui/class-names";
 
 import styles from "./rejection-input.module.css";
@@ -15,6 +16,15 @@ import {
 } from "./validation";
 
 type InputMode = "file" | "text";
+
+export type RejectionSubmission =
+  | Readonly<{ kind: "file"; file: File }>
+  | Readonly<{ kind: "text"; text: string }>;
+
+type RejectionInputProps = Readonly<{
+  disabled?: boolean;
+  onSubmit?: (submission: RejectionSubmission) => void;
+}>;
 
 const acceptedFileTypes =
   ".pdf,.png,.jpg,.jpeg,application/pdf,image/png,image/jpeg";
@@ -37,7 +47,10 @@ function InputErrorMessage({ error }: { error: InputError }) {
   );
 }
 
-export function RejectionInput() {
+export function RejectionInput({
+  disabled = false,
+  onSubmit,
+}: RejectionInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [mode, setMode] = useState<InputMode>("file");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -104,6 +117,27 @@ export function RejectionInput() {
     setError(validatePastedText(event.target.value));
   }
 
+  function submit() {
+    if (disabled) return;
+
+    if (mode === "file") {
+      const nextError = validateFiles(selectedFile ? [selectedFile] : []);
+      if (nextError) {
+        setError(nextError);
+        return;
+      }
+      onSubmit?.({ kind: "file", file: selectedFile! });
+      return;
+    }
+
+    const nextError = validatePastedText(pastedText);
+    if (nextError) {
+      setError(nextError);
+      return;
+    }
+    onSubmit?.({ kind: "text", text: pastedText.trim() });
+  }
+
   return (
     <Card
       aria-labelledby="rejection-input-title"
@@ -127,6 +161,7 @@ export function RejectionInput() {
           className={styles.modeButton}
           onClick={() => selectMode("file")}
           type="button"
+          disabled={disabled}
         >
           Upload one rejection document
         </button>
@@ -135,6 +170,7 @@ export function RejectionInput() {
           className={styles.modeButton}
           onClick={() => selectMode("text")}
           type="button"
+          disabled={disabled}
         >
           Paste rejection text
         </button>
@@ -159,6 +195,7 @@ export function RejectionInput() {
                   className={styles.removeButton}
                   onClick={clearFile}
                   type="button"
+                  disabled={disabled}
                 >
                   Remove
                 </button>
@@ -186,6 +223,7 @@ export function RejectionInput() {
                 onChange={handleFileChange}
                 ref={fileInputRef}
                 type="file"
+                disabled={disabled}
               />
               <span className={styles.dropContent}>
                 <span aria-hidden="true" className={styles.uploadMark}>
@@ -225,6 +263,7 @@ export function RejectionInput() {
             onChange={handleTextChange}
             placeholder="Paste the rejection email or message here…"
             value={pastedText}
+            disabled={disabled}
           />
           <div className={styles.textFooter}>
             <p className={styles.textState}>
@@ -238,6 +277,7 @@ export function RejectionInput() {
                   setError(null);
                 }}
                 type="button"
+                disabled={disabled}
               >
                 Clear text
               </button>
@@ -251,6 +291,16 @@ export function RejectionInput() {
           <InputErrorMessage error={error} />
         </div>
       ) : null}
+
+      <Button
+        className={styles.submitButton}
+        disabled={disabled}
+        fullWidth
+        onClick={submit}
+        size="large"
+      >
+        Check if “No” really means “No”
+      </Button>
     </Card>
   );
 }

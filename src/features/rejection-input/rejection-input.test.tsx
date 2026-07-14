@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { RejectionInput } from "./rejection-input";
 
@@ -152,5 +152,28 @@ describe("RejectionInput", () => {
     await user.tab();
 
     expect(input).toHaveFocus();
+  });
+
+  it("submits one normalized pasted-text input", async () => {
+    const user = userEvent.setup();
+    const onSubmit = vi.fn();
+    render(<RejectionInput onSubmit={onSubmit} />);
+    await user.click(
+      screen.getByRole("button", { name: "Paste rejection text" }),
+    );
+    await user.type(
+      screen.getByRole("textbox", { name: /paste the airline’s rejection/i }),
+      "  Rejected claim.  ",
+    );
+    await user.click(
+      screen.getByRole("button", {
+        name: /check if “no” really means “no”/i,
+      }),
+    );
+
+    expect(onSubmit).toHaveBeenCalledWith({
+      kind: "text",
+      text: "Rejected claim.",
+    });
   });
 });

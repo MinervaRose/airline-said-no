@@ -331,6 +331,10 @@
   font-weight: var(--font-weight-semibold);
 }
 
+.submitButton {
+  margin-top: var(--space-5);
+}
+
 .errorDetail {
   margin-top: var(--space-1);
   font-size: var(--font-size-xs);

@@ -6,6 +6,7 @@ import { classNames } from "@/components/ui/class-names";
 import styles from "./captain-worthatry.module.css";
 
 type MascotSize = "small" | "medium" | "large";
+type FlightState = "idle" | "banked" | "level";
 
 const sizeClasses: Record<MascotSize, string | undefined> = {
   small: styles.small,
@@ -21,12 +22,14 @@ export type CaptainWorthATryProps = Omit<
   decorative?: boolean;
   label?: string;
   size?: MascotSize;
+  flightState?: FlightState;
 };
 
 export function CaptainWorthATry({
   animated = true,
   className,
   decorative = false,
+  flightState = "idle",
   label = "Captain WorthATry, a tiny retro biplane",
   size = "medium",
   ...props
@@ -39,6 +42,8 @@ export function CaptainWorthATry({
         styles.mascot,
         sizeClasses[size],
         animated && styles.animated,
+        flightState === "banked" && styles.banked,
+        flightState === "level" && styles.level,
         className,
       )}
       role={decorative ? undefined : "img"}

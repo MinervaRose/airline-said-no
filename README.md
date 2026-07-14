@@ -5,7 +5,7 @@ opinion on airline compensation and reimbursement refusals.
 
 ## Requirements
 
-- Node.js 22 or later
+- Node.js 22.x
 - npm
 
 ## Local development
@@ -58,15 +58,27 @@ are limited to 4 MB, intentionally below Vercel Functions' 4.5 MB request-body
 limit to leave room for multipart overhead. Files remain request-scoped and are
 sent directly to the analysis route without a storage service.
 
+No `vercel.json` file is required. Vercel detects the Next.js framework,
+package scripts and Node.js API routes without additional configuration. The
+repository pins Vercel builds and functions to Node.js 22.x through
+`package.json`.
+
 Prepare and deploy with:
 
 ```powershell
-npm.cmd install
+npm.cmd ci
+npm.cmd run check
+npm.cmd test
+npm.cmd run build
+
 npx.cmd vercel link
 npx.cmd vercel env add OPENAI_API_KEY production
 npx.cmd vercel env add OPENAI_MODEL production
-npx.cmd vercel build
-npx.cmd vercel deploy --prod
+npx.cmd vercel pull --yes --environment=production
+npx.cmd vercel build --prod
+npx.cmd vercel deploy --prebuilt --prod
 ```
 
-Do not place either environment variable in a `NEXT_PUBLIC_` variable.
+The `vercel env add` commands prompt for each value without placing it in shell
+history. Use `gpt-5.6` for `OPENAI_MODEL`, or omit that variable to use the
+application default. Do not place either variable in a `NEXT_PUBLIC_` variable.

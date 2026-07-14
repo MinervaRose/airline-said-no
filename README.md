@@ -31,6 +31,7 @@ The application is available at `http://localhost:3000`.
 ## Source structure
 
 - `src/app` contains App Router routes, layouts, and global styles.
+- `src/components/mascot` contains the reusable Captain WorthATry asset.
 - `src/components/ui` contains reusable, product-agnostic interface primitives.
 - `src/config` contains typed application and environment configuration.
 - `src/styles` contains shared semantic design tokens.

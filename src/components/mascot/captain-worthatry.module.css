@@ -1,0 +1,104 @@
+.mascot {
+  position: relative;
+  width: var(--mascot-width);
+  aspect-ratio: 3 / 2;
+  flex: none;
+  contain: layout paint;
+}
+
+.small {
+  --mascot-width: clamp(6rem, 24vw, 7.5rem);
+}
+
+.medium {
+  --mascot-width: clamp(8rem, 32vw, 10rem);
+}
+
+.large {
+  --mascot-width: clamp(10rem, 40vw, 13rem);
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  transform-origin: 48% 54%;
+}
+
+.animated .canvas {
+  animation: captain-float 3.2s var(--ease-standard) infinite;
+}
+
+.aircraft {
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  user-select: none;
+}
+
+.propellerAssembly {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 76.4%;
+  width: 7%;
+  height: 42%;
+  transform: translate(-50%, -50%);
+}
+
+.rotor {
+  position: absolute;
+  inset: 0 31%;
+  border: max(1px, 0.08em) solid var(--color-navy-950);
+  background: linear-gradient(
+    to bottom,
+    var(--color-orange-500) 0 16%,
+    var(--color-grey-300) 16% 46%,
+    var(--color-cream) 46% 54%,
+    var(--color-grey-300) 54% 84%,
+    var(--color-orange-500) 84% 100%
+  );
+  transform: rotate(12deg);
+  transform-origin: center;
+}
+
+.animated .rotor {
+  animation: propeller-spin 520ms steps(12, end) infinite;
+}
+
+.hub {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  width: 82%;
+  aspect-ratio: 1;
+  border: max(1px, 0.08em) solid var(--color-navy-950);
+  border-radius: 50%;
+  background: var(--color-orange-500);
+  box-shadow: inset 0 0 0 max(1px, 0.08em) var(--color-cream);
+  transform: translate(-50%, -50%);
+}
+
+@keyframes captain-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-0.25deg);
+  }
+
+  50% {
+    transform: translateY(-3%) rotate(0.25deg);
+  }
+}
+
+@keyframes propeller-spin {
+  to {
+    transform: rotate(372deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animated .canvas,
+  .animated .rotor {
+    animation: none;
+  }
+}

@@ -1,0 +1,44 @@
+.status {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: var(--space-2);
+  border-radius: var(--radius-pill);
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.5;
+}
+
+.dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: none;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.neutral {
+  background: var(--color-grey-100);
+  color: var(--color-grey-700);
+}
+
+.info {
+  background: var(--color-status-info-surface);
+  color: var(--color-status-info);
+}
+
+.success {
+  background: var(--color-status-success-surface);
+  color: var(--color-status-success);
+}
+
+.warning {
+  background: var(--color-status-warning-surface);
+  color: var(--color-status-warning);
+}
+
+.danger {
+  background: var(--color-status-danger-surface);
+  color: var(--color-status-danger);
+}

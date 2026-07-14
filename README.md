@@ -31,7 +31,9 @@ The application is available at `http://localhost:3000`.
 ## Source structure
 
 - `src/app` contains App Router routes, layouts, and global styles.
+- `src/components/ui` contains reusable, product-agnostic interface primitives.
 - `src/config` contains typed application and environment configuration.
+- `src/styles` contains shared semantic design tokens.
 
 Additional folders should be introduced with the feature that needs them rather
 than as empty placeholders.

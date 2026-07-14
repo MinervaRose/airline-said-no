@@ -1,0 +1,106 @@
+:root {
+  /* Brand palette */
+  --color-navy-950: #081d2f;
+  --color-navy-900: #102a43;
+  --color-navy-800: #183b56;
+  --color-sky-700: #1f6f96;
+  --color-sky-500: #58a9d4;
+  --color-sky-200: #b9dff1;
+  --color-sky-100: #dff1f8;
+  --color-orange-700: #a94716;
+  --color-orange-500: #eb7834;
+  --color-orange-200: #f8c9aa;
+  --color-cream: #fff9ef;
+  --color-white: #ffffff;
+  --color-grey-50: #f8f4ed;
+  --color-grey-100: #eee7dd;
+  --color-grey-300: #c8bfb4;
+  --color-grey-500: #887f76;
+  --color-grey-600: #6d655d;
+  --color-grey-700: #514b45;
+  --color-grey-900: #282521;
+
+  /* Semantic colour */
+  --color-surface-canvas: var(--color-cream);
+  --color-surface-raised: var(--color-white);
+  --color-surface-subtle: var(--color-grey-50);
+  --color-surface-brand: var(--color-navy-900);
+  --color-text-primary: var(--color-navy-950);
+  --color-text-secondary: var(--color-grey-700);
+  --color-text-muted: var(--color-grey-600);
+  --color-text-inverse: var(--color-white);
+  --color-text-link: var(--color-sky-700);
+  --color-border-default: var(--color-grey-500);
+  --color-border-subtle: var(--color-grey-100);
+  --color-border-strong: var(--color-navy-800);
+  --color-accent: var(--color-orange-500);
+  --color-accent-strong: var(--color-orange-700);
+  --color-focus: var(--color-sky-700);
+  --color-focus-offset: var(--color-cream);
+  --color-status-info: #176486;
+  --color-status-info-surface: #e1f1f7;
+  --color-status-success: #216548;
+  --color-status-success-surface: #e3f2ea;
+  --color-status-warning: #87500d;
+  --color-status-warning-surface: #fff0d5;
+  --color-status-danger: #9b3535;
+  --color-status-danger-surface: #fbe8e6;
+
+  /* Typography */
+  --font-family-body: "Inter Variable", Inter, system-ui, sans-serif;
+  --font-family-heading:
+    "Space Grotesk Variable", "Space Grotesk", system-ui, sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.375rem;
+  --font-size-2xl: clamp(1.75rem, 1.5rem + 1vw, 2.25rem);
+  --font-size-3xl: clamp(2.25rem, 1.75rem + 2vw, 3.5rem);
+  --line-height-tight: 1.1;
+  --line-height-heading: 1.2;
+  --line-height-body: 1.6;
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-wide: 0.08em;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Spacing and layout */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --content-width: 72rem;
+  --reading-width: 42rem;
+
+  /* Shape and depth */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.25rem;
+  --radius-pill: 999px;
+  --shadow-sm: 0 1px 2px rgb(8 29 47 / 8%);
+  --shadow-md: 0 10px 30px rgb(8 29 47 / 10%);
+  --shadow-lifted: 0 18px 50px rgb(8 29 47 / 14%);
+
+  /* Motion */
+  --duration-fast: 120ms;
+  --duration-normal: 200ms;
+  --duration-slow: 360ms;
+  --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Interaction */
+  --focus-ring-width: 3px;
+  --focus-ring-offset: 3px;
+  --control-height-md: 2.75rem;
+  --control-height-lg: 3.25rem;
+}

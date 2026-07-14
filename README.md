@@ -22,6 +22,8 @@ The application is available at `http://localhost:3000`.
 - `npm run dev` starts the local development server.
 - `npm run build` creates a production build.
 - `npm run start` serves the production build.
+- `npm test` runs the component and validation test suite once.
+- `npm run test:watch` runs tests in watch mode.
 - `npm run lint` runs ESLint with zero warnings allowed.
 - `npm run typecheck` runs strict TypeScript checks.
 - `npm run format` formats supported files with Prettier.
@@ -34,6 +36,7 @@ The application is available at `http://localhost:3000`.
 - `src/components/mascot` contains the reusable Captain WorthATry asset.
 - `src/components/ui` contains reusable, product-agnostic interface primitives.
 - `src/config` contains typed application and environment configuration.
+- `src/features` contains product features with their logic, styles, and tests.
 - `src/styles` contains shared semantic design tokens.
 
 Additional folders should be introduced with the feature that needs them rather

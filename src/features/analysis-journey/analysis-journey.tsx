@@ -11,10 +11,12 @@ import { analysisResultSchema, type AnalysisResult } from "@/features/analysis";
 import pageStyles from "@/app/page.module.css";
 import styles from "./analysis-journey.module.css";
 import { AnalysisResults } from "./analysis-results";
-import { Investigation } from "./investigation";
+import {
+  INVESTIGATION_SEQUENCE_DURATION_MS,
+  Investigation,
+} from "./investigation";
 
-type JourneyState = "landing" | "processing" | "finishing" | "results";
-const minimumInvestigationDuration = 3_800;
+type JourneyState = "landing" | "processing" | "results";
 const wait = (milliseconds: number) =>
   new Promise<void>((resolve) => window.setTimeout(resolve, milliseconds));
 
@@ -102,11 +104,9 @@ export function AnalysisJourney() {
       });
       const [analysis] = await Promise.all([
         request,
-        wait(minimumInvestigationDuration),
+        wait(INVESTIGATION_SEQUENCE_DURATION_MS),
       ]);
       setResult(analysis);
-      setState("finishing");
-      await wait(500);
       setState("results");
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (caughtError) {
@@ -122,10 +122,7 @@ export function AnalysisJourney() {
   }
 
   return (
-    <main
-      aria-busy={state === "processing" || state === "finishing"}
-      className={pageStyles.page}
-    >
+    <main aria-busy={state === "processing"} className={pageStyles.page}>
       <span aria-hidden="true" className={pageStyles.routeLine} />
       <div className={pageStyles.shell}>
         <header className={pageStyles.wordmark}>
@@ -135,9 +132,7 @@ export function AnalysisJourney() {
         {state === "landing" ? (
           <Landing error={error} onSubmit={submit} />
         ) : null}
-        {state === "processing" || state === "finishing" ? (
-          <Investigation arrived={state === "finishing"} />
-        ) : null}
+        {state === "processing" ? <Investigation /> : null}
         {state === "results" && result ? (
           <AnalysisResults result={result} />
         ) : null}

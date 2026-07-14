@@ -2,6 +2,7 @@ import { CaptainWorthATry } from "@/components/mascot";
 import { Card } from "@/components/ui/card";
 import { StatusIndicator } from "@/components/ui/status-indicator";
 import type { AnalysisResult } from "@/features/analysis";
+import { DraftReply } from "@/features/draft-reply";
 import styles from "./analysis-results.module.css";
 
 const strengthTone = {
@@ -166,6 +167,7 @@ export function AnalysisResults({ result }: { result: AnalysisResult }) {
           <strong>Why this move?</strong>
           <p>{result.rationale}</p>
         </div>
+        <DraftReply analysis={result} />
       </section>
       <p className={styles.disclaimer}>
         Airline Said No provides information and drafting assistance. It is not

@@ -23,9 +23,57 @@
   letter-spacing: var(--letter-spacing-wide);
   text-transform: uppercase;
 }
-.captain {
+.captainPath {
+  position: relative;
+  display: grid;
+  width: clamp(15rem, 48vw, 18rem);
+  min-height: clamp(7rem, 28vw, 9rem);
+  place-items: center;
   margin: var(--space-3) 0;
+}
+.captain {
+  position: relative;
+  z-index: 1;
   filter: drop-shadow(0 18px 22px rgb(8 29 47 / 15%));
+}
+.noSign {
+  position: absolute;
+  z-index: 0;
+  right: 0.2rem;
+  bottom: 0.4rem;
+  display: grid;
+  width: 2.7rem;
+  height: 1.8rem;
+  place-items: center;
+  border: 2px solid var(--color-orange-500);
+  border-radius: 2px;
+  opacity: 0;
+  background: var(--color-navy-900);
+  color: var(--color-cream);
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.12em;
+  box-shadow:
+    inset 0 0 0 2px var(--color-navy-900),
+    inset 0 0 0 3px var(--color-cream),
+    var(--shadow-sm);
+}
+.noSign::after {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 2px;
+  height: 0.65rem;
+  background: var(--color-navy-900);
+  content: "";
+  transform: translateX(-50%);
+}
+.manoeuvring .captain {
+  animation: captain-avoid-no 2.6s var(--ease-emphasized) both;
+}
+.manoeuvring .noSign {
+  animation: no-sign-appearance 2.6s var(--ease-standard) both;
 }
 .title {
   margin: 0;
@@ -41,6 +89,14 @@
   font-family: var(--font-family-heading);
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-semibold);
+}
+
+.waitingMessage {
+  min-height: 2rem;
+  margin: var(--space-5) 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
 }
 .progress {
   display: grid;
@@ -94,6 +150,23 @@
   border-top: 2px dashed rgb(31 111 150 / 22%);
   animation: contrail-pulse 2.8s ease-in-out infinite;
 }
+.paperwork {
+  position: absolute;
+  top: 31%;
+  left: -2rem;
+  width: 1.25rem;
+  height: 1.6rem;
+  border: 1px solid var(--color-grey-300);
+  border-radius: 2px;
+  background:
+    linear-gradient(var(--color-sky-200), var(--color-sky-200)) 50% 40% / 65%
+      1px no-repeat,
+    linear-gradient(var(--color-sky-200), var(--color-sky-200)) 50% 65% / 48%
+      1px no-repeat,
+    var(--color-white);
+  box-shadow: var(--shadow-sm);
+  animation: paperwork-drift 16s var(--ease-standard) 7s infinite;
+}
 @keyframes cloud-drift {
   to {
     transform: translateX(calc(100vw + 20rem));
@@ -105,10 +178,57 @@
     transform: translateX(0.75rem);
   }
 }
+@keyframes paperwork-drift {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(-8deg);
+  }
+  10%,
+  85% {
+    opacity: 0.75;
+  }
+  50% {
+    transform: translate(52vw, 2rem) rotate(8deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(100vw + 4rem), -1rem) rotate(-4deg);
+  }
+}
+@keyframes captain-avoid-no {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0);
+  }
+  22% {
+    transform: translate(-1rem, -0.25rem) rotate(-5deg);
+  }
+  52% {
+    transform: translate(1.25rem, -1.15rem) rotate(7deg);
+  }
+  76% {
+    transform: translate(0.5rem, -0.35rem) rotate(-2deg);
+  }
+}
+@keyframes no-sign-appearance {
+  0%,
+  12%,
+  92%,
+  100% {
+    opacity: 0;
+    transform: translateY(0.2rem);
+  }
+  25%,
+  80% {
+    opacity: 0.9;
+    transform: translateY(0);
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .cloudOne,
   .cloudTwo,
-  .contrail {
+  .contrail,
+  .paperwork {
     animation: none;
   }
   .cloudOne {
@@ -116,5 +236,15 @@
   }
   .cloudTwo {
     right: 8%;
+  }
+  .paperwork {
+    display: none;
+  }
+  .manoeuvring .captain,
+  .manoeuvring .noSign {
+    animation: none;
+  }
+  .noSign {
+    display: none;
   }
 }

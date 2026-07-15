@@ -50,9 +50,6 @@ Every analysis follows the same order:
 
 # Gallery
 
-> **Coming shortly**
-
-The screenshots below will be replaced with the final application images before submission.
 
 | Landing page | Analysis | Draft reply |
 |--------------|-----------|-------------|
@@ -60,11 +57,13 @@ The screenshots below will be replaced with the final application images before 
 
 ---
 
-# Demo
+# 🎬 Demo Video
 
-🎬 **Demo video**
+Watch a short demonstration of **Airline Said No** in action:
 
-> *(YouTube link will be added here.)*
+[![Watch the demo](docs/images/hero-banner.png)](https://youtu.be/RR64KEt8Miw)
+
+▶️ **YouTube:** https://youtu.be/RR64KEt8Miw
 
 ---
 

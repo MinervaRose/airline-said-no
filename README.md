@@ -1,84 +1,198 @@
-# Airline Said No
+<p align="center">
 
-An OpenAI Build Week project that gives travellers an explainable second
-opinion on airline compensation and reimbursement refusals.
+<!-- TODO: Hero banner -->
+
+<img src="docs/images/hero-banner.png" alt="Airline Said No">
+
+</p>
+
+<h1 align="center">✈️ Airline Said No</h1>
+
+<p align="center">
+An explainable second opinion for airline compensation refusals.
+<br>
+Built with <strong>Codex</strong> and <strong>GPT-5.6</strong> for OpenAI Build Week.
+</p>
+
+<p align="center">
+
+![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-38B2AC?logo=tailwind-css&logoColor=white)
+![OpenAI](https://img.shields.io/badge/OpenAI-GPT--5.6-412991)
+![Tests](https://img.shields.io/badge/Tests-78_Passing-success)
+![License](https://img.shields.io/badge/License-MIT-green)
+
+</p>
+
+---
+
+# What is Airline Said No?
+
+We've all been there.
+
+You receive an email explaining that your compensation claim has been rejected. The explanation is often brief, sometimes vague, and it's not always clear whether the decision is justified or worth challenging.
+
+**Airline Said No** doesn't promise compensation, and it doesn't replace legal advice.
+
+Instead, it helps travellers understand what actually happened by reconstructing the facts, explaining the airline's reasoning, highlighting missing or contradictory information, and suggesting one realistic next step.
+
+If appropriate, it can then draft a calm, editable reply that the traveller remains completely free to modify before sending.
+
+Every analysis follows the same order:
+
+1. Facts
+2. Interpretation
+3. Recommendation
+
+---
+
+# Gallery
+
+> **Coming shortly**
+
+The screenshots below will be replaced with the final application images before submission.
+
+| Landing page | Analysis | Draft reply |
+|--------------|-----------|-------------|
+| ![](docs/images/landing.png) | ![](docs/images/analysis.png) | ![](docs/images/draft.png) |
+
+---
+
+# Demo
+
+🎬 **Demo video**
+
+> *(YouTube link will be added here.)*
+
+---
+
+# Features
+
+- ✈️ Understand why an airline rejected a compensation request
+- 📄 Analyse PDF, PNG, JPG/JPEG and pasted text
+- 🧠 Grounded reasoning powered by GPT-5.6 structured outputs
+- 🔍 Distinguish facts from interpretation
+- ⚠️ Detect missing and contradictory evidence
+- ✉️ Draft a professional, editable follow-up reply
+- 🔒 Privacy-first architecture with request-scoped document processing
+
+---
+
+# Trying it yourself
 
 ## Requirements
 
 - Node.js 22.x
 - npm
+- Your own OpenAI API key
 
-## Local development
+Clone the repository, copy `.env.example` to `.env.local`, add your API key, then run:
 
-1. Copy `.env.example` to `.env.local`.
-2. Add the required server-side credentials.
-3. Install dependencies with `npm install`.
-4. Start the development server with `npm run dev`.
-
-The application is available at `http://localhost:3000`.
-
-## Scripts
-
-- `npm run dev` starts the local development server.
-- `npm run build` creates a production build.
-- `npm run start` serves the production build.
-- `npm test` runs the component and validation test suite once.
-- `npm run test:watch` runs tests in watch mode.
-- `npm run lint` runs ESLint with zero warnings allowed.
-- `npm run typecheck` runs strict TypeScript checks.
-- `npm run format` formats supported files with Prettier.
-- `npm run format:check` checks formatting without changing files.
-- `npm run check` runs formatting, linting, and type checks.
-
-## Source structure
-
-- `src/app` contains App Router routes, layouts, and global styles.
-- `src/components/mascot` contains the reusable Captain WorthATry asset.
-- `src/components/ui` contains reusable, product-agnostic interface primitives.
-- `src/config` contains typed application and environment configuration.
-- `src/features` contains product features with their logic, styles, and tests.
-- `src/styles` contains shared semantic design tokens.
-
-Additional folders should be introduced with the feature that needs them rather
-than as empty placeholders.
-
-## Environment variables
-
-Environment variables are read through `src/config/env.ts`. Private variables
-must only be imported by server-side modules. The committed `.env.example`
-documents required keys without containing secrets.
-
-- `OPENAI_API_KEY` is required and must remain server-only.
-- `OPENAI_MODEL` is optional and defaults to the approved `gpt-5.6` alias.
-
-## Vercel deployment readiness
-
-The Next.js application and Node.js API routes are Vercel-compatible. Uploads
-are limited to 4 MB, intentionally below Vercel Functions' 4.5 MB request-body
-limit to leave room for multipart overhead. Files remain request-scoped and are
-sent directly to the analysis route without a storage service.
-
-No `vercel.json` file is required. Vercel detects the Next.js framework,
-package scripts and Node.js API routes without additional configuration. The
-repository pins Vercel builds and functions to Node.js 22.x through
-`package.json`.
-
-Prepare and deploy with:
-
-```powershell
-npm.cmd ci
-npm.cmd run check
-npm.cmd test
-npm.cmd run build
-
-npx.cmd vercel link
-npx.cmd vercel env add OPENAI_API_KEY production
-npx.cmd vercel env add OPENAI_MODEL production
-npx.cmd vercel pull --yes --environment=production
-npx.cmd vercel build --prod
-npx.cmd vercel deploy --prebuilt --prod
+```bash
+npm install
+npm run dev
 ```
 
-The `vercel env add` commands prompt for each value without placing it in shell
-history. Use `gpt-5.6` for `OPENAI_MODEL`, or omit that variable to use the
-application default. Do not place either variable in a `NEXT_PUBLIC_` variable.
+The application will then be available at:
+
+```text
+http://localhost:3000
+```
+
+## Sample documents
+
+A collection of fictional airline correspondence is included in the `samples/` folder.
+
+These files are designed to exercise different reasoning paths and make it easy to try the application without creating your own test data.
+
+Everything in the samples has been invented specifically for this project. No real passenger data is included.
+
+---
+
+# Environment variables
+
+Environment variables are read through `src/config/env.ts`.
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `OPENAI_API_KEY` | ✅ | Your OpenAI API key. Never exposed to the browser. |
+| `OPENAI_MODEL` | Optional | Defaults to `gpt-5.6`. |
+
+---
+
+# Available scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start the development server |
+| `npm run build` | Create a production build |
+| `npm run start` | Run the production build locally |
+| `npm test` | Run the test suite |
+| `npm run test:watch` | Run tests in watch mode |
+| `npm run lint` | Run ESLint |
+| `npm run typecheck` | Strict TypeScript checking |
+| `npm run format` | Format supported files |
+| `npm run format:check` | Check formatting |
+| `npm run check` | Run formatting, linting and type checking together |
+
+---
+
+# Project structure
+
+```
+src/
+├── app/                 App Router routes
+├── components/
+│   ├── mascot/          Captain WorthATry
+│   └── ui/              Reusable UI primitives
+├── config/              Typed configuration
+├── features/            Product features
+└── styles/              Semantic design tokens
+
+samples/                 Fictional investigation files
+docs/                    README assets
+```
+
+---
+
+# Architecture
+
+Some of the architectural choices made during development include:
+
+- Server Components by default
+- OpenAI Responses API
+- Structured Outputs with Zod validation
+- Request-scoped document processing
+- No document persistence
+- `store: false` on OpenAI requests
+- Strict TypeScript throughout
+- Comprehensive automated test suite
+- Accessibility-first interface with keyboard support and reduced-motion handling
+
+---
+
+# Built with Codex
+
+One of the goals of this project was to explore what it feels like to build a complete product collaboratively with **Codex**.
+
+Rather than treating Codex as a code generator, I used it as an engineering partner throughout the project. It helped scaffold the application, implement features, write tests, refine prompts, improve accessibility, polish the user experience, and continually review the codebase as it evolved.
+
+GPT-5.6 powers the application's analysis and draft-generation capabilities through the OpenAI Responses API.
+
+---
+
+# Deployment
+
+The application has been prepared for deployment on Vercel, although it was intentionally left undeployed for this submission because running the application requires an OpenAI API key.
+
+Everything needed to deploy is already present in the repository should you wish to do so.
+
+---
+
+# Acknowledgements
+
+Created for **OpenAI Build Week** using **Codex** and **GPT-5.6**.
+
+Special thanks to Captain WorthATry for flying through an alarming amount of paperwork.
